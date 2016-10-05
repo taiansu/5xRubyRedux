@@ -1,8 +1,8 @@
 import * as API from '../api.js'
 
-export const addTodo = (description) => ({
-  type: 'ADD_TODO',
-  description
+const addedTodo = (todo) => ({
+  type: 'ADDED_TODO',
+  todo: todo
 })
 
 const loading = () => ({
@@ -17,6 +17,11 @@ const receiveTodos = (todos) => ({
 export const fetchTodos = () => dispatch => {
   dispatch(loading());
   return API.fetchTodos('all').then(todos => dispatch(receiveTodos(todos)))
+}
+
+export const addTodo = (text) => dispatch => {
+  dispatch(loading());
+  return API.addTodo(text).then(todo => dispatch(addedTodo(todo)))
 }
 
 export const toogleTodo = () => ({ })

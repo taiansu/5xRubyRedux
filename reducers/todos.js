@@ -3,12 +3,8 @@ const assign = Object.assign;
 
 const todos = (state = [{id: 1, description: "test"}], action) => {
   switch (action.type) {
-    case 'ADD_TODO':
-      return state.concat({
-        id: v4(),
-        description: action.description,
-        complete: false
-      });
+    case 'ADDED_TODO':
+      return state.concat(action.todo);
     case 'TOGGLE_TODO':
       return state.map(todo => {
         if (action.id !== todo.id) {
