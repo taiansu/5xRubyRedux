@@ -21,9 +21,21 @@ const addTodoJSON = (text) => {
   return JSON.stringify({ id: v4(), description: text, done: false })
 }
 
-export const toggleTodo = (id) =>
-  delay(500).then(() => {
-    const todo = fakeDatabase.todos.find(t => t.id === id);
-    todo.completed = !todo.completed;
-    return todo;
-  });
+export const toggleTodo = (id) => {
+  // 一般來說 server side 不會這樣，不過可以當做連續 ajax 的參考
+  // 先用 Ajax query 一次
+  return fetch(`${BASE_URL}/todos/${id}`).    // 取出 response 的 json
+         then(resp => resp.json()).           // 上一步的結果就是 previousTodo
+         then(previousTodo => {
+           let nextTodo = Object.assign({},   // 生成要發送的 request body
+                                        previousTodo,
+                                        {done: !previousTodo.done});
+
+           return fetch(`${BASE_URL}/todos/${id}`, {        // 再送一次 Ajax ，記得要 return 整個 promise
+             method: 'PUT',
+             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'},
+             body: JSON.stringify(nextTodo)
+           })
+         }).
+         then(resp => resp.json())            // 再取出 response 的 json
+  }
