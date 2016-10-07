@@ -14,6 +14,11 @@ const receiveTodos = (todos) => ({
   todos
 })
 
+const toggledTodo = (id) => ({
+  type: 'TOGGLE_TODO',
+  id
+})
+
 export const fetchTodos = () => dispatch => {
   dispatch(loading());
   return API.fetchTodos('all').then(todos => dispatch(receiveTodos(todos)))
@@ -24,7 +29,10 @@ export const addTodo = (text) => dispatch => {
   return API.addTodo(text).then(todo => dispatch(addedTodo(todo)))
 }
 
-export const toogleTodo = () => ({ })
+export const toggleTodo = id => dispatch => {
+  dispatch(loading());
+  return API.toggleTodo(id).then(todo => dispatch(toggledTodo(todo.id)))
+}
 
 export const setVisibilityFilter = () => ({ })
 

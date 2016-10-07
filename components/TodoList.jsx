@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-const TodoItem = ({todo}) => (
-  <li>
+const TodoItem = ({todo, onTodoClick}) => (
+  <li onClick={onTodoClick} style={{textDecoration: todo.done ? 'line-through' : 'none'}}>
     {todo.description}
   </li>
 )
@@ -9,7 +9,8 @@ const TodoItem = ({todo}) => (
 class TodoList extends Component{
   todoItem(todo) {
     return <TodoItem key={todo.id}
-                     todo={todo} />
+                     todo={todo}
+                     onTodoClick={() => this.props.onTodoClick(todo.id)} />
   }
 
   render() {
