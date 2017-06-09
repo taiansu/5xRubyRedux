@@ -1,4 +1,4 @@
-import { v4 } from 'uuid';
+import v4 from 'uuid/v4';
 const assign = Object.assign;
 
 const todos = (state = [{id: 1, description: "test"}], action) => {

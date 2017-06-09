@@ -27,14 +27,17 @@ module.exports = {
     inline: true
   },
   resolve: {
-    modulesDirectories: ['node_modules'],
-    extensions: ['', '.js', '.jsx']
+    modules: [
+      __dirname,
+      'node_modules'
+    ],
+    extensions: ['.js', '.jsx']
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: "babel",
+        loader: "babel-loader",
         query: {
           presets: ['es2015', 'react']
         },
